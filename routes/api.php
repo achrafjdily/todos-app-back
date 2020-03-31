@@ -18,6 +18,16 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post("login","AuthController@login");
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get("verify","AuthController@verify");
+        Route::get("user","AuthController@user");
+        Route::get("logout","AuthController@logout");
+    });
+});
+Route::group(['prefix' => 'tasks'], function () {
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get("my","TaskController@tasksForAuthedUser");
+        Route::post("create","TaskController@create");
+        Route::post("update","TaskController@update");
+        Route::post("delete","TaskController@delete");
     });
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
